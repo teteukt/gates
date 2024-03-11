@@ -1,8 +1,10 @@
+package entity
+
 import java.util.*
 
 sealed class NodeSocketState(
     private val id: UUID,
-    private val name: String,
+    val name: String,
     private val node: NodeState
 ) {
     class Input(

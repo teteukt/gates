@@ -1,6 +1,13 @@
+package entity
+
+import androidx.compose.ui.geometry.Offset
+import generateUuid
 import java.util.UUID
 
-class NodeState(id: UUID, name: String) {
+abstract class NodeState(id: UUID, name: String) {
+
+    var position: Offset = Offset.Zero
+        private set
     var id: UUID = id
         private set
 
@@ -9,6 +16,10 @@ class NodeState(id: UUID, name: String) {
 
     var socketStates: List<NodeSocketState> = emptyList()
         private set
+
+    fun setPosition(offset: Offset) {
+        position = offset
+    }
 
     fun addInput(name: String): NodeSocketState.Input {
         val instance = NodeSocketState.Input(id = generateUuid(), name = name, node = this)
@@ -21,4 +32,7 @@ class NodeState(id: UUID, name: String) {
         socketStates = socketStates + listOf(instance)
         return instance
     }
+
+    fun getInputs(): List<NodeSocketState.Input> = socketStates.filterIsInstance<NodeSocketState.Input>()
+    fun getOutputs(): List<NodeSocketState.Output> = socketStates.filterIsInstance<NodeSocketState.Output>()
 }
